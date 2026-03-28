@@ -3,8 +3,8 @@ import csv
 
 host = "localhost"
 port = 3306
-user = "root"
-password = "root"
+user = ""
+password = ""
 database = "student_db"
 
 connection = mysql.connector.connect(
