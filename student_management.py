@@ -1,4 +1,5 @@
 import mysql.connector
+import csv
 
 host = "localhost"
 port = 3306
@@ -94,7 +95,7 @@ def search_student():
 def update_student():
     id = int(input("Enter student id: "))
     
-    choice = input("1. Update name\n2. Update age\n3. Update course\n4. Update email\n5. Update all\n6.exit\nEnter your choice: ")
+    choice = input("1. Update name\n2. Update age\n3. Update course\n4. Update email\n5. Update all\n6.Export to file\n7.exit\nEnter your choice: ")
     
     if choice == "1":
         name = input("Enter new name: ")
@@ -159,6 +160,30 @@ def delete_student():
     cursor.execute("DELETE FROM students WHERE id = %s", (id,))
     connection.commit()
     print("Deletion successful")
+    
+    
+def export_students():
+    cursor.execute("SELECT * FROM students")
+    rows = cursor.fetchall()
+
+    if not rows:
+        print("No data to export")
+        return
+
+    try:
+        with open("students.csv", "w", newline="") as file:
+            writer = csv.writer(file)
+
+            # Header row
+            writer.writerow(["ID", "Name", "Age", "Course", "Email"])
+
+            # Data rows
+            writer.writerows(rows)
+
+        print("Data exported successfully to students.csv")
+
+    except Exception as e:
+        print("Error exporting data:", e)
 
 while True:
     print("\n1. Add Student")
@@ -166,7 +191,8 @@ while True:
     print("3. Search Student")
     print("4. Update Student")
     print("5. Delete Student")
-    print("6. Exit")
+    print("6. Export Students")
+    print("7. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -181,6 +207,8 @@ while True:
     elif choice == "5":
         delete_student()
     elif choice == "6":
+        export_students()
+    elif choice == "7":
         print("Exiting program")
         break
     else:
