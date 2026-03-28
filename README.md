@@ -52,8 +52,8 @@ Edit in `main.py`:
 
 ```
 host = "localhost"
-user = "root"
-password = "your_password"
+user = "[your_username]"
+password = "[your_password]"
 database = "student_db"
 ```
 
